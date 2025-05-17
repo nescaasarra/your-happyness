@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Simple Tinder Swipe</title>
+<style>
+  body {
+    margin: 0;
+    background: #fbcfe8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    flex-direction: column;
+  }
+  #card {
+    width: 320px;
+    height: 420px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 12px 20px rgba(0,0,0,0.2);
+    overflow: hidden;
+    user-select: none;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  #card img {
+    width: 100%;
+    height: 75%;
+    object-fit: cover;
+    border-bottom: 1px solid #eee;
+  }
+  #info {
+    padding: 15px;
+  }
+  #info h2 {
+    margin: 0 0 10px 0;
+  }
+  #link {
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  #buttons {
+    display: flex;
+    justify-content: space-around;
+    width: 320px;
+  }
+  button {
+    background: #ef4444;
+    border: none;
+    color: white;
+    font-size: 18px;
+    padding: 10px 30px;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 5px 10px rgba(239, 68, 68, 0.4);
+  }
+  button.like {
+    background: #22c55e;
+    box-shadow: 0 5px 10px rgba(34, 197, 94, 0.4);
+  }
+</style>
+</head>
+<body>
+
+<div id="card">
+  <img id="profile-img" src="" alt="Profile Picture" />
+  <div id="info">
+    <h2 id="profile-name"></h2>
+    <a id="link" href="#" target="_blank" rel="noopener noreferrer">Visit Profile</a>
+  </div>
+</div>
+
+<div id="buttons">
+  <button id="dislike-btn">Dislike</button>
+  <button id="like-btn" class="like">Like</button>
+</div>
+
+<script>
+  const profiles = [
+    {
+      name: "Alice, 24",
+      image: "https://randomuser.me/api/portraits/women/44.jpg",
+      link: "https://yourpersonalwebsite.com/alice"
+    },
+    {
+      name: "Bob, 27",
+      image: "https://randomuser.me/api/portraits/men/34.jpg",
+      link: "https://yourpersonalwebsite.com/bob"
+    },
+    {
+      name: "Clara, 22",
+      image: "https://randomuser.me/api/portraits/women/65.jpg",
+      link: "https://yourpersonalwebsite.com/clara"
+    }
+  ];
+
+  let currentIndex = 0;
+  const likedProfiles = [];
+
+  const profileImg = document.getElementById('profile-img');
+  const profileName = document.getElementById('profile-name');
+  const profileLink = document.getElementById('link');
+  const likeBtn = document.getElementById('like-btn');
+  const dislikeBtn = document.getElementById('dislike-btn');
+  const card = document.getElementById('card');
+
+  function showProfile(index) {
+    if (index >= profiles.length) {
+      card.innerHTML = `<h2 style="padding: 50px;">No more profiles<br>You liked ${likedProfiles.length} profile${likedProfiles.length !== 1 ? 's' : ''}.</h2>`;
+      document.getElementById('buttons').style.display = 'none';
+      return;
+    }
+    const profile = profiles[index];
+    profileImg.src = profile.image;
+    profileImg.alt = profile.name;
+    profileName.textContent = profile.name;
+    profileLink.href = profile.link;
+    profileLink.textContent = "Visit Profile";
+  }
+
+  likeBtn.onclick = () => {
+    likedProfiles.push(profiles[currentIndex]);
+    currentIndex++;
+    showProfile(currentIndex);
+  };
+
+  dislikeBtn.onclick = () => {
+    currentIndex++;
+    showProfile(currentIndex);
+  };
+
+  showProfile(currentIndex);
+</script>
+
+</body>
+</html>
